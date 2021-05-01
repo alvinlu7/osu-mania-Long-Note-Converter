@@ -1,0 +1,26 @@
+{
+  "name": "noodle_maker_ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "get-port": "^5.1.1",
+    "osu-parser": "^0.3.3"
+  },
+  "bin": "server.js",
+  "pkg": {
+    "assets": [
+      "node_modules/**/*",
+      "src/**/*"
+    ],
+    "targets": [
+      "node14-win-x64"
+    ]
+  }
+}
