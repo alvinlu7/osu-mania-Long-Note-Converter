@@ -68,7 +68,7 @@
             for(let i = 0; i < res.length; i++){
               var element = `
                 <div class="d-flex">
-                  <button id="file_${i}" onclick="convertFile(event);">${res[i]}</button>
+                  <button class="btn" id="file_${i}" onclick="convertFile(event);">${res[i]}</button>
                 </div>
               `;
               $('#results').append(element);
@@ -84,19 +84,38 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 </head>
 <body>
-  <div class="d-flex flex-column w-50">
-    <label>
+  
+  <div class="d-flex bg-primary text-light p-4 mb-5">
+    <h1 class="ml-auto mr-auto">osu!mania Long Note Converter</h1>
+  </div>
+  <div class="d-flex flex-column justify-content-center align-items-center w-50 ml-auto mr-auto mt-auto mb-auto">
+    <h5>
       Directory path of your osu! songs folder
-      <input type="text" id="song_directory"/>
-    </label>
-    <button class="w-25" id="select_all">ALL SONGS</button>
-    <button class="w-25" id="select_some">SOME SONGS</button>
+    </h5>
+    <input class="form-control w-50 mb-5" type="text" id="song_directory"/>
+    <button class="btn btn-warning w-25" id="select_all">ALL SONGS</button>
+    <button class="btn btn-primary w-25 mt-2" id="select_some">SOME SONGS</button>
     <div class="d-flex flex-column" id="all_input">
-      <button class="w-25" id="submit_all">Start Processing!</button>
+      <button class="btn btn-danger mt-5" id="submit_all">Start Processing!</button>
     </div>
-    <div class="d-flex flex-column" id="some_input">
-      <input type="text" id="search_file"/>
-      <button class="w-25" id="fetch_all">Search Files!</button>
+    <div class="d-flex flex-column justify-content-center align-items-center" id="some_input">
+      <h5>Settings</h5>
+      <label>
+        LN Release Timing (fraction of most common beat divisor)
+      </label>
+      <div class="d-flex justify-content-center">
+        <input class="form-control" type="number" min="1" id="release_top"/>
+        <span> / </span> 
+        <input class="form-control" type="number" min="1" id="release_bottom"/>
+      </div>
+      <h5 class="mt-5">Search</h5>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="search-label">Search</span>
+        </div>
+        <input type="text" class="form-control" id="search_file" aria-describedby="search-label"/>
+      </div>
+      <button class="btn btn-success" id="fetch_all">Search Files!</button>
     </div>
     <p id="error"></p>
     <div class="d-flex flex-column" id="results">
