@@ -26,7 +26,7 @@ const parse = (filePath, settings) => {
   })
 }
 
-const parseAll = (songsFolder) => {
+const parseAll = (songsFolder, settings) => {
   const promiseArray = []
 
   return new Promise((resolve, reject) => {
@@ -43,7 +43,7 @@ const parseAll = (songsFolder) => {
             if(files){
               files.forEach(file => {
                 if(path.extname(file) === '.osu' && !file.includes("NOODLE_")){
-                  promiseArray.push(() => parse(path.join(songsFolder, folder, file)))
+                  promiseArray.push(() => parse(path.join(songsFolder, folder, file), settings))
                 }
               })
             }
@@ -87,7 +87,7 @@ const getSongList = (songsFolder, search) => {
                   promiseArray.push(path.join(songsFolder, folder, file))
                 }
               })
-            }
+            } 
             if(folder === folders[folders.length - 1]){
               resolve(promiseArray)
             }

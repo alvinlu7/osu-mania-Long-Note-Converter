@@ -42,7 +42,7 @@ const generate = (beatmap, filePath, settings) => {
         release_divisor = Number.parseFloat(settings.releaseTop) / Number.parseFloat(settings.releaseBottom)
         min_divisor = Number.parseFloat(settings.minTop) / Number.parseFloat(settings.minBottom)
       }
-  
+
       //Generating hitobjects section
       output += "[HitObjects]\n"
       beatmap.hitObjects.forEach((hitObj, index) => {
@@ -53,16 +53,19 @@ const generate = (beatmap, filePath, settings) => {
             break
           }
         }
+                
+        const illegalLN = nextSameNoteTiming - Math.floor(mostCommonSpaceBetweenNotes * release_divisor) <= hitObj.startTime + mostCommonSpaceBetweenNotes * min_divisor;
+
         output += `${hitObj.position[0]},`+
         `${hitObj.position[1]},`+
         `${hitObj.startTime},`+
-        `${nextSameNoteTiming === 0 || nextSameNoteTiming - Math.floor(mostCommonSpaceBetweenNotes * release_divisor) < hitObj.startTime + mostCommonSpaceBetweenNotes * min_divisor ? 1 : 128},`+
+        `${nextSameNoteTiming === 0 ? 1 : 
+          ( illegalLN ? 1 : 128)},`+
         `0,`+
-        `${nextSameNoteTiming === 0 || nextSameNoteTiming - Math.floor(mostCommonSpaceBetweenNotes * release_divisor) < hitObj.startTime + mostCommonSpaceBetweenNotes * min_divisor ? 0 : nextSameNoteTiming -  Math.floor(mostCommonSpaceBetweenNotes * release_divisor)}`+
+        `${nextSameNoteTiming === 0 ? 0 :
+          (illegalLN ? 0 : nextSameNoteTiming -  Math.floor(mostCommonSpaceBetweenNotes * release_divisor))}`+
         `:0:0:0:0:\n`
       })
-  
-      
       const writePath = path.join(path.dirname(filePath), "NOODLE_" + path.basename(filePath, '.osu')+".osu")
       fs.writeFile(writePath, output, (err) => {
         if(err){

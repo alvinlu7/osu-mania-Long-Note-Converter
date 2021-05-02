@@ -1,7 +1,7 @@
 const path = require( 'path' );
 const express = require( 'express' );
 const getPort = require( 'get-port' );
-const { parseAll, getSongList, parseSong } = require('./controller');
+const { parseAll, getSongList, parseSong } = require('./controller.js');
 
 ( async function() {
     
@@ -14,7 +14,7 @@ const { parseAll, getSongList, parseSong } = require('./controller');
 
     //Use body parser for JSON requests
     app.use(express.urlencoded({extended: true}));
-    app.use(express.json());
+    app.use(express.json()); 
 
     /*-------------------*/
 
@@ -33,7 +33,7 @@ const { parseAll, getSongList, parseSong } = require('./controller');
 
     app.post( '/api/all', async ( req, res ) => {
       console.log(req.body.songsFolder)
-      await parseAll(req.body.songsFolder);
+      await parseAll(req.body.songsFolder, req.body.search);
       res.send(true);
     });
 

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier \"./**.{js, jsx, html}\" --write"
   },
   "author": "",
   "license": "ISC",
@@ -22,5 +23,8 @@
     "targets": [
       "node14-win-x64"
     ]
+  },
+  "devDependencies": {
+    "prettier": "2.2.1"
   }
 }
