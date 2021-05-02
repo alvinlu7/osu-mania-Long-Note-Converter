@@ -15,7 +15,13 @@
           method: 'post',
           dataType: 'json',
           data: {
-            song: document.getElementById(e.target.id).innerText
+            song: document.getElementById(e.target.id).innerText,
+            settings: {
+              releaseTop: document.getElementById('release_top').value,
+              releaseBottom: document.getElementById('release_bottom').value,
+              minTop: document.getElementById('min_top').value,
+              minBottom: document.getElementById('min_bottom').value
+            }
           },
           success: res => {
             document.getElementById(e.target.id).style.backgroundColor = 'green';
@@ -65,10 +71,11 @@
           },
           success: res => {
             $('#results').html("");
+            $('#error').html("");
             for(let i = 0; i < res.length; i++){
               var element = `
                 <div class="d-flex">
-                  <button class="btn" id="file_${i}" onclick="convertFile(event);">${res[i]}</button>
+                  <button class="btn btn-secondary w-100" id="file_${i}" onclick="convertFile(event);">${res[i]}</button>
                 </div>
               `;
               $('#results').append(element);
@@ -101,12 +108,20 @@
     <div class="d-flex flex-column justify-content-center align-items-center" id="some_input">
       <h5>Settings</h5>
       <label>
-        LN Release Timing (fraction of most common beat divisor)
+        LN Release Timing (fraction of most common note spacing)
       </label>
       <div class="d-flex justify-content-center">
-        <input class="form-control" type="number" min="1" id="release_top"/>
+        <input class="form-control w-25" type="number" min="1" value="1" id="release_top"/>
         <span> / </span> 
-        <input class="form-control" type="number" min="1" id="release_bottom"/>
+        <input class="form-control w-25" type="number" min="1" value="1" id="release_bottom"/>
+      </div>
+      <label>
+        Minimum LN Length (fraction of most common note spacing)
+      </label>
+      <div class="d-flex justify-content-center">
+        <input class="form-control w-25" type="number" min="1" value="1" id="min_top"/>
+        <span> / </span> 
+        <input class="form-control w-25" type="number" min="1" value="4" id="min_bottom"/>
       </div>
       <h5 class="mt-5">Search</h5>
       <div class="input-group mb-3">

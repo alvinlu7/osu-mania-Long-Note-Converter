@@ -23,7 +23,7 @@ const { parseAll, getSongList, parseSong } = require('./controller');
 
     app.post( '/api/file', async ( req, res ) => {
       try{
-        await parseSong(req.body.song);
+        await parseSong(req.body.song, req.body.settings);
         res.send(true)
       } catch (err){
         console.log(err)

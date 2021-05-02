@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 
 
-const parse = (filePath) => {
+const parse = (filePath, settings) => {
 
   return new Promise((resolve, reject) => {
     parser.parseFile(path.join(filePath), (err, beatmap) => {
@@ -13,8 +13,8 @@ const parse = (filePath) => {
         reject(err)
       }
       try{
-        if(beatmap.Mode === '3'){
-          resolve(writer.generate(beatmap, path.join(filePath)))
+        if(beatmap.Mode === '3' || settings){
+          resolve(writer.generate(beatmap, path.join(filePath), settings))
         }
         else{
           resolve(false)
@@ -62,9 +62,8 @@ const parseAll = (songsFolder) => {
   })
 }
 
-const parseSong = async (song) => {
-  console.log(path.join(song))
-  await parse(path.join(song));
+const parseSong = async (song, settings) => {
+  await parse(path.join(song), settings);
   return true
 }
 

@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const generate = (beatmap, filePath) => {
+const generate = (beatmap, filePath, settings) => {
 
   return new Promise((resolve, reject) => {
     try{
@@ -34,6 +34,14 @@ const generate = (beatmap, filePath) => {
           highestCount = spaces[space]
         }
       })
+
+      let min_divisor = 0.25
+      let release_divisor = 1
+
+      if(settings){
+        release_divisor = Number.parseFloat(settings.releaseTop) / Number.parseFloat(settings.releaseBottom)
+        min_divisor = Number.parseFloat(settings.minTop) / Number.parseFloat(settings.minBottom)
+      }
   
       //Generating hitobjects section
       output += "[HitObjects]\n"
@@ -48,9 +56,9 @@ const generate = (beatmap, filePath) => {
         output += `${hitObj.position[0]},`+
         `${hitObj.position[1]},`+
         `${hitObj.startTime},`+
-        `${nextSameNoteTiming === 0 || nextSameNoteTiming - mostCommonSpaceBetweenNotes < hitObj.startTime + mostCommonSpaceBetweenNotes/4 ? 1 : 128},`+
+        `${nextSameNoteTiming === 0 || nextSameNoteTiming - Math.floor(mostCommonSpaceBetweenNotes * release_divisor) < hitObj.startTime + mostCommonSpaceBetweenNotes * min_divisor ? 1 : 128},`+
         `0,`+
-        `${nextSameNoteTiming === 0 || nextSameNoteTiming - mostCommonSpaceBetweenNotes < hitObj.startTime + mostCommonSpaceBetweenNotes/4 ? 0 : nextSameNoteTiming - mostCommonSpaceBetweenNotes}`+
+        `${nextSameNoteTiming === 0 || nextSameNoteTiming - Math.floor(mostCommonSpaceBetweenNotes * release_divisor) < hitObj.startTime + mostCommonSpaceBetweenNotes * min_divisor ? 0 : nextSameNoteTiming -  Math.floor(mostCommonSpaceBetweenNotes * release_divisor)}`+
         `:0:0:0:0:\n`
       })
   
